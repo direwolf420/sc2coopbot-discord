@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sc2coopbot-discord", "sc2coopbot-discord.pyproj", "{197F3C15-F280-4F18-8B75-E6ECEDB555ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{197F3C15-F280-4F18-8B75-E6ECEDB555ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{197F3C15-F280-4F18-8B75-E6ECEDB555ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7AB6B52-E6BB-4037-9CA8-3903A7A0E387}
+	EndGlobalSection
+EndGlobal

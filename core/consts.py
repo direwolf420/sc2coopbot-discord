@@ -1,0 +1,45 @@
+SC2COOP_URL = "https://starcraft2coop.com"
+PREFIX = "c!"
+PREFIX_DEBUG = "d!"
+
+ # response from the site
+ERR_STR = "Error!"
+
+# commander identifiers for the site
+RAYNOR = "raynor"
+KERRIGAN = "kerrigan"
+ARTANIS = "artanis"
+SWANN = "swann"
+ZAGARA = "zagara"
+VORAZUN = "vorazun"
+KARAX = "karax"
+ABATHUR = "abathur"
+ALARAK = "alarak"
+NOVA = "nova"
+STUKOV = "stukov"
+FENIX = "fenix"
+DEHAKA = "dehaka"
+HORNER = "horner"
+TYCHUS = "tychus"
+ZERATUL = "zeratul"
+STETMANN = "stetmann"
+MENGSK = "mengsk"
+COMM_COUNT = 18
+
+# map identifiers for the site
+COA = "chainofascension"
+COD = "cradleofdeath"
+DON = "deadofnight"
+LNL = "lockload"
+MW = "malwarfare"
+ME = "minerevacuation"
+MO = "mistopportunities"
+OE = "oblivionexpress"
+PNP = "partparcel"
+RTK = "riftstokorhal"
+SOA = "scytheofamon"
+TOTP = "templeofthepast"
+VP = "thevermillionproblem"
+VL = "voidlaunch"
+VT = "voidthrashing"
+MAP_COUNT = 15
