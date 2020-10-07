@@ -18,8 +18,8 @@ description = '''A bot that fetches various information about StarCraft 2 Coop m
 
 class CustomBot(Bot):
     """A bot that fetches various information about StarCraft 2 Coop mode. Your number two source of coop information"""
-    def __init__(self, debug:bool, **options):
-        if debug:
+    def __init__(self, release:bool, **options):
+        if release:
             prefix = consts.PREFIX
         else:
             prefix = consts.PREFIX_DEBUG

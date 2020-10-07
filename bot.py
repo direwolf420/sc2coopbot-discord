@@ -8,17 +8,20 @@ from core.custombot import CustomBot
 
 load_dotenv()
 
+print(sys.argv)
+
+release = "-r" in sys.argv # for testing purposes. When running the bot properly: `python bot.py -r`
+
 # reads the .env file
-# __debug__: This constant is true if Python was not started with an -O interpreter option
-if __debug__:
+if release:
     TOKEN = os.getenv("DISCORD_TOKEN")
-    print("no debug")
+    print("release")
 else:
     TOKEN = os.getenv("DISCORD_TOKEN_DEBUG")
     print("debug")
 
 version = 1
 
-bot = CustomBot(__debug__)
+bot = CustomBot(release)
 
 bot.run(TOKEN)

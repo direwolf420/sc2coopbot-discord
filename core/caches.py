@@ -81,22 +81,18 @@ class Map(Aliasable):
         return None
 
 def verify_duplicates(cache:dict):
-    checkedinstance = False
-    
     uniques = set()
 
     for v in cache.values():
-        if not checkedinstance:
-            checkedinstance = True
-            if not isinstance(v, Aliasable):
-                # to make sure we can use the aliases field
-                return False
+        if not isinstance(v, Aliasable):
+            # to make sure we can use the aliases field
+            raise Exception("{} is not  of type 'Aliasable'".format(v))
 
         for alias in v.aliases:
             if alias not in uniques:
                 uniques.add(alias)
             else:
-                return False
+                raise Exception("Duplicate name '{0}' found in '{1}'".format(alias, v))
 
     return True
 

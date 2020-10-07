@@ -16,7 +16,8 @@
     <CommandLineArguments>
     </CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <InterpreterArguments>-O</InterpreterArguments>
+    <InterpreterArguments>
+    </InterpreterArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="core\" />
+    <Folder Include="core\cogs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="README.md">
