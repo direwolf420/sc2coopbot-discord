@@ -30,7 +30,8 @@ class RequestHandler():
 
             # blocking = bad
             with urllib.request.urlopen(url) as f:
-                s = f.read().decode('utf-8')
+                response = f.read()
+                s = response.decode('utf-8')
                 if s == consts.ERR_STR:
                     return (True, dict({"params":params, "misc":s}))
                 data = ast.literal_eval(s)

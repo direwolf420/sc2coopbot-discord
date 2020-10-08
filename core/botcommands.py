@@ -443,6 +443,12 @@ class BotCommands():
             await self.bot.sendf(ctx, title=title, fields=fields, footer=True)
         
 
+    async def honk(self, ctx:Context):
+        if self.early_return(ctx):
+            return
+
+        await self.bot.sendf(ctx, image_url="https://ih1.redbubble.net/image.928162828.3517/flat,750x1000,075,f.jpg")
+
         
     def add_commands(self):
         """
@@ -454,4 +460,5 @@ class BotCommands():
         self.bot.add_command(Command(self.commander_cmd, name="c", aliases=["cmd", "comm", "commander"]))
         self.bot.add_command(Command(self.map_cmd, name="m", aliases=["map", "maps", "mission", "missions"]))
         self.bot.add_command(Command(self.ping, name="ping"))
+        self.bot.add_command(Command(self.honk, name="honk"))
         #self.bot.add_command(Command(self.testcommand, name="asd", aliases=["a"]))
