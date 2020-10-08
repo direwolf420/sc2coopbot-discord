@@ -443,6 +443,68 @@ class BotCommands():
             await self.bot.sendf(ctx, title=title, fields=fields, footer=True)
         
 
+    async def mut_cmd(self, ctx:Context, *args):
+        """
+        Fetches info about a mutator
+
+        Possible args:
+        * none
+        -> Lists all maps
+
+        * mutator
+        -> Fetches info about this particular mutator
+
+        Basic usage:
+        >>> [prefix]mut justdie -> description of 'Just Die!'
+        """
+
+        if self.early_return(ctx):
+            return
+        
+        count = args.__len__()
+        sargs = [a.lower() for a in args] # sanitize to lowercase only
+
+        if count == 0:
+            await self.bot.sendf(ctx, description="You need to specify a mutator")
+            return
+
+        alias = sargs[0]
+
+        if alias in ("h", "help"):
+            await self.help_wrapper(ctx)
+            return
+
+        query = {"mutator":alias}
+        query["type"] = "mutator"
+
+        # if the code gets to here, we have a request to make
+
+        params = urllib.parse.urlencode(query) # builds url params to append to the site
+        (exception, data) = self.request_handler.get_data_from_site(params)
+
+        if exception:
+            error = "Exception occured with params {}".format(data["params"])
+            if "misc" in data:
+                if data["misc"] == consts.ERR_STR:
+                    error += ": Invalid input"
+            await self.bot.sendf(ctx, error, title=consts.ERR_STR, colour=Colour.red())
+
+        else:
+            # {"name":"Just Die","description":"Enemy units are automatically revived upon death."}
+            send = False
+            description = data["description"]
+            # https://starcraft2coop.com/resources/mutators#row_justdie
+            url = "{0}/resources/mutators#row_{1}".format(consts.SC2COOP_URL, alias)
+            img_url = "{0}/images/mutators/{1}.png".format(consts.SC2COOP_URL, alias)
+            
+            author = ("Mutator: {}".format(data["name"]), img_url)
+            fields = (Field("Description", description),)
+            fields = fields + (Field("More Info", url),)
+
+            # https://starcraft2coop.com/images/mutators/justdie.png
+
+            await self.bot.sendf(ctx, fields=fields, author=author, footer=True)
+
         
     def add_commands(self):
         """
@@ -453,5 +515,6 @@ class BotCommands():
         """
         self.bot.add_command(Command(self.commander_cmd, name="c", aliases=["cmd", "comm", "commander"]))
         self.bot.add_command(Command(self.map_cmd, name="m", aliases=["map", "maps", "mission", "missions"]))
+        self.bot.add_command(Command(self.mut_cmd, name="mut", aliases=["mutator"]))
         self.bot.add_command(Command(self.ping, name="ping"))
         #self.bot.add_command(Command(self.testcommand, name="asd", aliases=["a"]))
