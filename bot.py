@@ -8,8 +8,6 @@ from core.custombot import CustomBot
 
 load_dotenv()
 
-print(sys.argv)
-
 release = "-r" in sys.argv # for testing purposes. When running the bot properly: `python bot.py -r`
 
 # reads the .env file
