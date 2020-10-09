@@ -1,3 +1,5 @@
+import sys
+
 from discord.ext.commands import Bot
 from discord.ext.commands import Context
 from discord.ext.commands import Command
@@ -16,6 +18,10 @@ description = '''A bot that fetches various information about StarCraft 2 Coop m
 
 # Context doc: https://discordpy.readthedocs.io/en/latest/ext/commands/api.html#context
 
+initial_extensions = (
+    "commanders",
+)
+
 class CustomBot(Bot):
     """A bot that fetches various information about StarCraft 2 Coop mode. Your number two source of coop information"""
     def __init__(self, release:bool, **options):
@@ -30,6 +36,13 @@ class CustomBot(Bot):
                          **options)
         self.bot_commands = BotCommands(self)
         self.bot_commands.add_commands()
+        
+        common_prefix = "core.cogs."
+        for extension in initial_extensions:
+            try:
+                self.load_extension(common_prefix + extension)
+            except Exception as e:
+                print("Failed to load extension {}.".format(extension), file=sys.stderr)
 
     async def on_ready(self):
         print(f"{self.user} has connected to Discord!")

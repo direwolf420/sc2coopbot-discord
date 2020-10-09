@@ -35,7 +35,7 @@
     <Compile Include="core\caches.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="core\cogs\commander.py">
+    <Compile Include="core\cogs\commanders.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="core\custombot.py">
@@ -48,6 +48,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="core\requests.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="core\utils.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

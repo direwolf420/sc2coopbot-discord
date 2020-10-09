@@ -6,6 +6,8 @@ import re
 import urllib.parse
 import urllib.request
 
+import core.utils as ut
+
 #import aiohttp
 
 import core.consts as consts
@@ -26,16 +28,12 @@ class BotCommands():
     def __init__(self, bot:Bot):
         self.bot = bot
         self.request_handler = RequestHandler()
-        
-    def early_return(self, ctx:Context):
-        """ returns 'True' if author equals user """
-        return ctx.message.author.bot or ctx.message.author.id == self.bot.user.id
 
     #bot.add_command(Command(adsadsads, name="asd", description="tests", aliases=["a"]))
 
     #@bot.command(name="trivia", description="Get a random fact about SC2 Coop", aliases=["ray"])
     async def trivia(self, ctx:Context):
-        if self.early_return(ctx):
+        if ut.early_return(self.bot, ctx):
             return
 
         trivias = list()
@@ -51,14 +49,14 @@ class BotCommands():
         Returns the latency
         If it doesn't respond, the bot is most likely dead
         """
-        if self.early_return(ctx):
+        if ut.early_return(self.bot, ctx):
             return
 
         await self.bot.sendf(ctx, "Latency: {}ms".format(math.trunc(self.bot.latency * 1000)), title="Pong!", colour=Colour.default())
 
 
     async def testcommand(self, ctx:Context):
-        if self.early_return(ctx):
+        if ut.early_return(self.bot, ctx):
             return
         a = "Raynor trains combat units and builds Barracks 50% faster.\r\nMechanical units cost 20% less gas.\r\nStimpack grants increase bonuses, costs less life, and does not require research.";
         
@@ -105,7 +103,7 @@ class BotCommands():
         >>> [prefix]c ray p2 -> Lists (dis)advantages of Raynors second prestige
         """
 
-        if self.early_return(ctx):
+        if ut.early_return(self.bot, ctx):
             return
         
         count = args.__len__()
@@ -369,7 +367,7 @@ class BotCommands():
         >>> [prefix]m vt -> description of Void Thrashing
         """
 
-        if self.early_return(ctx):
+        if ut.early_return(self.bot, ctx):
             return
         
         count = args.__len__()
@@ -434,7 +432,7 @@ class BotCommands():
         
 
     async def honk(self, ctx:Context):
-        if self.early_return(ctx):
+        if ut.early_return(self.bot, ctx):
             return
 
         await self.bot.sendf(ctx, image_url="https://ih1.redbubble.net/image.928162828.3517/flat,750x1000,075,f.jpg")
