@@ -136,11 +136,12 @@ class BotCommands():
         if count >= 2:
             operation = sargs[1]
 
-            l_prefixes = RequestType.EXACTLEVEL.get_aliases("l") + RequestType.EXACTLEVEL.get_aliases("level")
+            l_prefixes = RequestType.EXACTLEVEL.get_aliases("l") + RequestType.EXACTLEVEL.get_aliases("level")\
+            + RequestType.EXACTLEVEL.get_aliases("u") + RequestType.EXACTLEVEL.get_aliases("unlock")
             m_prefixes = RequestType.EXACTMASTERY.get_aliases("m") + RequestType.EXACTMASTERY.get_aliases("mastery")
             p_prefixes = RequestType.EXACTPRESTIGE.get_aliases("p") + RequestType.EXACTPRESTIGE.get_aliases("prestige")
 
-            if operation in set(("l", "ls", "level", "levels", "unlock", "unlocks") + l_prefixes):
+            if operation in set(("l", "ls", "u", "us", "level", "levels", "unlock", "unlocks") + l_prefixes):
                 query["type"] = "unlock"
                 queryType = RequestType.LISTLEVELS
                 
@@ -154,11 +155,9 @@ class BotCommands():
 
                 level = self.get_last_number(level_str) # take last number of the string
                 
-                if level not in RequestType.EXACTLEVEL.get_range():
-                    return
-                
-                query["level"] = level
-                queryType = RequestType.EXACTLEVEL
+                if level in RequestType.EXACTLEVEL.get_range():
+                    query["level"] = level
+                    queryType = RequestType.EXACTLEVEL
 
             elif operation in set(("m", "ms", "mastery", "masteries") + m_prefixes):
                 query["type"] = "mastery"
@@ -174,11 +173,9 @@ class BotCommands():
 
                 level = self.get_last_number(level_str) # take last number of the string
 
-                if level not in RequestType.EXACTMASTERY.get_range():
-                    return
-
-                query["level"] = level
-                queryType = RequestType.EXACTMASTERY
+                if level in RequestType.EXACTMASTERY.get_range():
+                    query["level"] = level
+                    queryType = RequestType.EXACTMASTERY
 
             elif operation in set(("p", "ps", "prestige", "prestiges") + p_prefixes):
                 query["type"] = "prestige"
@@ -194,12 +191,9 @@ class BotCommands():
 
                 level = self.get_last_number(level_str) # take last number of the string
                     
-                
-                if level not in RequestType.EXACTPRESTIGE.get_range():
-                    return
-
-                query["level"] = level
-                queryType = RequestType.EXACTPRESTIGE
+                if level in RequestType.EXACTPRESTIGE.get_range():
+                    query["level"] = level
+                    queryType = RequestType.EXACTPRESTIGE
                     
             elif operation in ("u", "us", "unit", "units"):
                 query["type"] = "unit"
