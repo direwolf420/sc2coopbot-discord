@@ -44,17 +44,6 @@ class BotCommands():
                         colour=Colour.green(), footer=True)
 
 
-    async def ping(self, ctx:Context):
-        """
-        Returns the latency
-        If it doesn't respond, the bot is most likely dead
-        """
-        if ut.early_return(self.bot, ctx):
-            return
-
-        await self.bot.sendf(ctx, "Latency: {}ms".format(math.trunc(self.bot.latency * 1000)), title="Pong!", colour=Colour.default())
-
-
     async def testcommand(self, ctx:Context):
         if ut.early_return(self.bot, ctx):
             return
@@ -65,7 +54,7 @@ class BotCommands():
     async def help_wrapper(self, ctx):
         """References the doc"""
         prefix = ctx.prefix
-        await self.bot.sendf(ctx, title="Use `{0}help {1}`".format(prefix, ctx.command.name))
+        await self.bot.sendf(ctx, title="Use `{0}help {1}`".format(prefix, ctx.invoked_with))
 
     def get_last_number(self, s:str):
         """Returns the last integer found in a string (-1 if none)"""
@@ -136,12 +125,12 @@ class BotCommands():
         if count >= 2:
             operation = sargs[1]
 
-            l_prefixes = RequestType.EXACTLEVEL.get_aliases("l") + RequestType.EXACTLEVEL.get_aliases("level")\
-            + RequestType.EXACTLEVEL.get_aliases("u") + RequestType.EXACTLEVEL.get_aliases("unlock")
+            l_prefixes = RequestType.EXACTLEVEL.get_aliases("l") + RequestType.EXACTLEVEL.get_aliases("level") + RequestType.EXACTLEVEL.get_aliases("unlock")
             m_prefixes = RequestType.EXACTMASTERY.get_aliases("m") + RequestType.EXACTMASTERY.get_aliases("mastery")
             p_prefixes = RequestType.EXACTPRESTIGE.get_aliases("p") + RequestType.EXACTPRESTIGE.get_aliases("prestige")
 
-            if operation in set(("l", "ls", "u", "us", "level", "levels", "unlock", "unlocks") + l_prefixes):
+            # no "u or us" because thats for units
+            if operation in set(("l", "ls", "level", "levels", "unlock", "unlocks") + l_prefixes):
                 query["type"] = "unlock"
                 queryType = RequestType.LISTLEVELS
                 
@@ -153,7 +142,7 @@ class BotCommands():
                 if count >= 3:
                     level_str = sargs[2]
 
-                level = self.get_last_number(level_str) # take last number of the string
+                level = ut.get_last_number(level_str) # take last number of the string
                 
                 if level in RequestType.EXACTLEVEL.get_range():
                     query["level"] = level
@@ -171,7 +160,7 @@ class BotCommands():
                 if count >= 3:
                     level_str = sargs[2]
 
-                level = self.get_last_number(level_str) # take last number of the string
+                level = ut.get_last_number(level_str) # take last number of the string
 
                 if level in RequestType.EXACTMASTERY.get_range():
                     query["level"] = level
@@ -189,7 +178,7 @@ class BotCommands():
                 if count >= 3:
                     level = sargs[2]
 
-                level = self.get_last_number(level_str) # take last number of the string
+                level = ut.get_last_number(level_str) # take last number of the string
                     
                 if level in RequestType.EXACTPRESTIGE.get_range():
                     query["level"] = level
@@ -423,13 +412,6 @@ class BotCommands():
             fields = fields + (Field("More Info", map.get_page()),)
 
             await self.bot.sendf(ctx, title=title, fields=fields, footer=True)
-        
-
-    async def honk(self, ctx:Context):
-        if ut.early_return(self.bot, ctx):
-            return
-
-        await self.bot.sendf(ctx, image_url="https://ih1.redbubble.net/image.928162828.3517/flat,750x1000,075,f.jpg")
 
         
     def add_commands(self):
@@ -441,6 +423,4 @@ class BotCommands():
         """
         self.bot.add_command(Command(self.commander_cmd, name="c", aliases=["cmd", "comm", "commander"]))
         self.bot.add_command(Command(self.map_cmd, name="m", aliases=["map", "maps", "mission", "missions"]))
-        self.bot.add_command(Command(self.ping, name="ping"))
-        self.bot.add_command(Command(self.honk, name="honk"))
         #self.bot.add_command(Command(self.testcommand, name="asd", aliases=["a"]))

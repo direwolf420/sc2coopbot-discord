@@ -19,7 +19,7 @@ description = '''A bot that fetches various information about StarCraft 2 Coop m
 # Context doc: https://discordpy.readthedocs.io/en/latest/ext/commands/api.html#context
 
 initial_extensions = (
-    "commanders",
+    "fun.fun_cog",
 )
 
 class CustomBot(Bot):
@@ -63,7 +63,7 @@ class CustomBot(Bot):
         """Formats into an embed and sends it"""
         embed = Embed()
         if colour is None:
-            embed.colour = Colour.dark_grey()
+            embed.colour = Colour(0x7289da)
         else:
             embed.colour = colour
         embed.title = title

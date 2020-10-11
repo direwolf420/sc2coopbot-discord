@@ -35,7 +35,7 @@
     <Compile Include="core\caches.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="core\cogs\commanders.py">
+    <Compile Include="core\cogs\fun\fun_cog.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="core\custombot.py">
@@ -60,8 +60,13 @@
   <ItemGroup>
     <Folder Include="core\" />
     <Folder Include="core\cogs\" />
+    <Folder Include="core\cogs\coop\" />
+    <Folder Include="core\cogs\fun\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="core\cogs\fun\trivia.json">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="README.md">
       <SubType>Code</SubType>
     </Content>
