@@ -35,6 +35,9 @@
     <Compile Include="core\caches.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="core\cogs\coop\coop_cog.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="core\cogs\fun\fun_cog.py">
       <SubType>Code</SubType>
     </Compile>

@@ -12,8 +12,10 @@ class RequestHandler():
     def __init__(self):
         self.cache = dict()
 
-    def get_data_from_site(self, params: str):
+    def get_data_from_site(self, query:dict):
         """Returns a tuple (bool, dict)"""
+
+        params = urllib.parse.urlencode(query) # builds url params to append to the site
 
         if params in self.cache:
             return (False, self.cache[params])

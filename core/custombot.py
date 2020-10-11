@@ -20,6 +20,7 @@ description = '''A bot that fetches various information about StarCraft 2 Coop m
 
 initial_extensions = (
     "fun.fun_cog",
+    "coop.coop_cog"
 )
 
 class CustomBot(Bot):
@@ -59,7 +60,7 @@ class CustomBot(Bot):
         await super().on_message(message)
 
     
-    async def sendf(self, ctx:Context, description=None, fields:tuple=(), author:tuple=(), image_url:str=None, title:str=None, colour:Colour=None, footer:bool=False):
+    async def sendf(self, ctx:Context, description=None, fields:tuple=(), author:tuple=(), image_url:str=None, title:str=None, colour:Colour=None, powered:bool=False, footer:str=""):
         """Formats into an embed and sends it"""
         embed = Embed()
         if colour is None:
@@ -76,9 +77,11 @@ class CustomBot(Bot):
                 for field in fields:
                     embed.add_field(name=field.name, value=field.value, inline=True)
 
-        if footer:
+        if powered:
             author = ctx.message.author
             embed.set_footer(text="Requested by {}, Powered by Starcraft2Coop.com".format(author), icon_url=ctx.message.author.avatar_url)
+        elif footer.__len__() > 0:
+            embed.set_footer(text=footer)
 
         if image_url is not None:
             embed.set_image(url=image_url)

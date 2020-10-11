@@ -3,44 +3,25 @@ import math
 import sys
 import re
 
-import urllib.parse
-import urllib.request
-
-import core.utils as ut
-
-#import aiohttp
-
 import core.consts as consts
 import core.caches as cc
+import core.utils as ut
 
 from core.caches import Commander, Map
 from core.field import Field
 from core.requests import RequestHandler, RequestType
+from core.custombot import CustomBot
 
-from discord.ext.commands import Bot
-from discord.ext.commands import Context
-from discord.ext.commands import Command
+from discord.ext.commands import Bot, Cog, Context, Command, command
 from discord.embeds import Embed
 from discord.colour import Colour
 
-class BotCommands():
+class CoopCog(Cog, name="Coop"):
 
-    def __init__(self, bot:Bot):
+    def __init__(self, bot:CustomBot):
         self.bot = bot
-        self.request_handler = RequestHandler()
 
-    #@bot.command(name="trivia", description="Get a random fact about SC2 Coop", aliases=["ray"])
-    async def trivia(self, ctx:Context):
-        if ut.early_return(self.bot, ctx):
-            return
-
-        trivias = list()
-        trivias.append("Dehakas 'Broodbrother' prestige is a jab at the easter egg with his missing arm found in the campaign mission 'Supreme'")
-    
-        await self.bot.sendf(ctx, random.choice(trivias),
-                        author=("Trivia!", "https://starcraft2coop.com/images/commanderportraits/dehakaportrait.png",),
-                        colour=Colour.green(), powered=True)
-
+    @command(name="c", aliases=["cmd", "comm", "commander"])
     async def commander_cmd(self, ctx:Context, *args):
         """
         Fetches info about a commander
@@ -73,7 +54,31 @@ class BotCommands():
         count = args.__len__()
         sargs = [a.lower() for a in args] # sanitize to lowercase only
         if count == 0:
-            await ut.help_wrapper(self.bot, ctx)
+
+            fields = ()
+            first_half = "```"
+            sec_half = "```"
+            half = cc.commandercache.__len__() // 2
+            c = 0
+            #TODO split it up
+            for v in cc.commandercache.values():
+                # makes the left hand always have atleast four length, fills with " "
+                format = "\r\n{}".format(v.display_name)
+                if c < half:
+                    first_half += format
+                    c += 1
+                else:
+                    sec_half += format
+
+            first_half += "```"
+            sec_half += "```"
+
+            fields = (Field("All Commanders (1/2)", first_half), Field("(2/2)", sec_half))
+
+            footer = "Example: Use \"{0}{1} horner\" to get more info about Han & Horner".format(ctx.prefix, ctx.invoked_with)
+
+            await self.bot.sendf(ctx, fields=fields, footer=footer)
+
             return
 
         alias = sargs[0]
@@ -89,13 +94,16 @@ class BotCommands():
             # todo give back list of possible operations
             return
 
+        queryType = RequestType.NONE
+
         if count == 1:
-            fields = (Field("More Info", comm.get_page(queryType)),)
+            more_info = comm.get_page(queryType)
+            more_info += "\r\nAdditional options: Type `{0}help {1}`".format(ctx.prefix, ctx.invoked_with)
+            fields = (Field("More Info", more_info),)
             await self.bot.sendf(ctx, fields=fields, author=comm.get_profile(), colour=comm.colour, image_url=comm.get_summary(), powered=True)
             return
 
         query = {"commander":comm.name}
-        queryType = RequestType.NONE
 
         if count >= 2:
             operation = sargs[1]
@@ -309,6 +317,8 @@ class BotCommands():
                     fields = fields + (Field("More Info", comm.get_page(queryType)),)
                 await self.bot.sendf(ctx, description=description, fields=fields, author=comm.get_profile(), colour=comm.colour, powered=True)
         
+
+    @command(name="m", aliases=["map", "maps", "mission", "missions"])
     async def map_cmd(self, ctx:Context, *args):
         """
         Fetches info about a map/mission
@@ -332,19 +342,28 @@ class BotCommands():
         if count == 0:
 
             fields = ()
-            all = "```"
+            first_half = "```"
+            sec_half = "```"
+            half = cc.mapcache.__len__() // 2
+            c = 0
+
             for v in cc.mapcache.values():
                 # makes the left hand always have atleast four length, fills with " "
-                all += "\r\n{m: <4}: {d}".format(m=v.common_alias, d=v.display_name)
-            all += "```"
+                format = "\r\n{m: <4}: {d}".format(m=v.common_alias, d=v.display_name)
+                if c < half:
+                    first_half += format
+                    c += 1
+                else:
+                    sec_half += format
 
-            fields = (Field("All Maps", all),)
+            first_half += "```"
+            sec_half += "```"
 
-            example = "Use `{0}{1} vt` to get more info about Void Thrashing".format(ctx.prefix, ctx.invoked_with)
+            fields = (Field("All Maps (1/2)", first_half), Field("(2/2)", sec_half))
 
-            fields = fields + (Field("Example", example),)
+            footer = "Example: Use \"{0}{1} vt\" to get more info about Void Thrashing".format(ctx.prefix, ctx.invoked_with)
 
-            await self.bot.sendf(ctx, fields=fields)
+            await self.bot.sendf(ctx, fields=fields, footer=footer)
 
             return
 
@@ -385,15 +404,8 @@ class BotCommands():
 
             await self.bot.sendf(ctx, title=title, fields=fields, powered=True)
 
-        
-    def add_commands(self):
-        """
-        todo:
-        redirects to amon unit comps
-        redirects to maguro stuff
-        mutators (api available)
-        praise eddie
-        """
-        #self.bot.add_command(Command(self.commander_cmd, name="c", aliases=["cmd", "comm", "commander"]))
-        #self.bot.add_command(Command(self.map_cmd, name="m", aliases=["map", "maps", "mission", "missions"]))
-        pass
+
+
+def setup(bot:CustomBot):
+    cog = CoopCog(bot)
+    bot.add_cog(cog)

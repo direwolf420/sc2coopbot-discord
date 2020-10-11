@@ -2,9 +2,13 @@ import re
 
 from discord.ext.commands import Bot, Context
 
-def early_return(bot, ctx:Context):
+def early_return(bot:Bot, ctx:Context):
     """returns 'True' if author is himself or a bot"""
     return ctx.message.author.bot or ctx.message.author.id == bot.user.id
+
+async def help_wrapper(bot:Bot, ctx:Context):
+    """References the doc"""
+    await self.bot.sendf(ctx, title="Use `{0}help {1}`".format(ctx.prefix, ctx.invoked_with))
 
 def get_last_number(s:str):
     """Returns the last integer found in a string (-1 if none)"""
