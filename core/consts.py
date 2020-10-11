@@ -1,6 +1,7 @@
 SC2COOP_URL = "https://starcraft2coop.com"
 PREFIX = "c!"
 PREFIX_DEBUG = "d!"
+HONK_URL = "https://ih1.redbubble.net/image.928162828.3517/flat,750x1000,075,f.jpg"
 
  # response from the site
 ERR_STR = "Error!"

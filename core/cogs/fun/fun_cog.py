@@ -21,25 +21,12 @@ class FunCog(Cog, name="Fun"):
     def __init__(self, bot:CustomBot):
         self.bot = bot
 
-    def coinflip(self):
-        return random.randint(0, 1)
-
-    @command()
-    async def gamble(self, ctx:Context, money:int):
-        """Gambles some money."""
-        pass
-
-    @command()
-    async def gamble2(self, ctx:Context, money:int):
-        """Gambles some more money."""
-        pass
-
     @command()
     async def honk(self, ctx:Context):
         if ut.early_return(self.bot, ctx):
             return
 
-        await self.bot.sendf(ctx, image_url="https://ih1.redbubble.net/image.928162828.3517/flat,750x1000,075,f.jpg")
+        await self.bot.sendf(ctx, image_url=consts.HONK_URL)
 
         
     @command(aliases=["pong"])
