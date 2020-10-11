@@ -64,7 +64,7 @@ class BotCommands():
 
     async def help_wrapper(self, ctx):
         """References the doc"""
-        prefix = str(await self.bot.get_prefix(ctx.message))
+        prefix = ctx.prefix
         await self.bot.sendf(ctx, title="Use `{0}help {1}`".format(prefix, ctx.command.name))
 
     def get_last_number(self, s:str):
@@ -377,7 +377,7 @@ class BotCommands():
 
             fields = (Field("All Maps", all),)
 
-            prefix = str(await self.bot.get_prefix(ctx.message))
+            prefix = ctx.prefix
             example = "Use `{0}{1} vt` to get more info about Void Thrashing".format(prefix, ctx.command.name)
 
             fields = fields + (Field("Example", example),)
