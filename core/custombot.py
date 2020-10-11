@@ -10,6 +10,7 @@ from discord import Game
 import discord
 
 from core.botcommands import BotCommands
+from core.requests import RequestHandler
 import core.consts as consts
 
 from core.field import Field
@@ -35,8 +36,9 @@ class CustomBot(Bot):
                          case_insensitive=True,
                          activity=Game(name="{0} | {1}".format(prefix, consts.SC2COOP_URL)),
                          **options)
-        self.bot_commands = BotCommands(self)
-        self.bot_commands.add_commands()
+        self.request_handler = RequestHandler()
+        #self.bot_commands = BotCommands(self)
+        #self.bot_commands.add_commands()
         
         common_prefix = "core.cogs."
         for extension in initial_extensions:

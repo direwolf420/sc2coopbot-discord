@@ -1,0 +1,6 @@
+{
+    "trivia": [
+        "Dehakas 'Broodbrother' prestige is a jab at the easter egg with his missing arm found in the campaign mission 'Supreme'"
+    ],
+    "comment": "TODO The bot actually requests the data from the main branch on the repo instead of the local file (allows updating without restarting the bot). This behavior can be toggled off manually via launch argument"
+}

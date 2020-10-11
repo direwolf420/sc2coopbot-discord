@@ -9,7 +9,7 @@ import core.utils as ut
 
 from core.caches import Commander, Map
 from core.field import Field
-from core.requests import RequestHandler, RequestType
+from core.requests import RequestType
 from core.custombot import CustomBot
 
 from discord.ext.commands import Bot, Cog, Context, Command, command
@@ -27,22 +27,20 @@ class CoopCog(Cog, name="Coop"):
         Fetches info about a commander
 
         Possible args:
+        * none
+          -> Lists all commanders
         * commanderalias
-        -> Gives introduction to the given commander
+          -> Gives introduction to the given commander
 
         The following args when prefixed with commanderalias:
-
         * [(level(s) | l(s) | unlock(s)] [number]) | l[number]
-        -> List all level unlocks, or if a number is specified, the unlock description
-
+          -> List all level unlocks, or if a number is specified, the unlock description
         * [(master(y|ies) | m(s)] [number]) | m[number]
-        -> List all masteries, or if a number is specified, the options
-
+          -> List all masteries, or if a number is specified, the options
         * [(prestige(s) | p(s)] [number]) | p[number]
-        -> List all prestiges, or if a number is specified, the (dis)advantages
-
+          -> List all prestiges, or if a number is specified, the (dis)advantages
         * unit(s) | u(s)
-        -> List all units
+          -> List all units
 
         Basic usage:
         >>> [prefix]c ray p2 -> Lists (dis)advantages of Raynors second prestige
@@ -177,7 +175,7 @@ class CoopCog(Cog, name="Coop"):
 
         # if the code gets to here, we have a request to make
 
-        (exception, data) = self.request_handler.get_data_from_site(query)
+        (exception, data) = self.bot.request_handler.get_data_from_site(query)
 
         if exception:
             error = "Exception occured with params {}".format(data["params"])
@@ -384,7 +382,7 @@ class CoopCog(Cog, name="Coop"):
 
         # if the code gets to here, we have a request to make
 
-        (exception, data) = self.request_handler.get_data_from_site(query)
+        (exception, data) = self.bot.request_handler.get_data_from_site(query)
 
         if exception:
             error = "Exception occured with params {}".format(data["params"])
