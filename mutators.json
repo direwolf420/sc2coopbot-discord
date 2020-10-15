@@ -1,0 +1,254 @@
+[
+    {
+        "display_name": "Afraid of the Dark",
+        "name": "afraidofthedark"
+    },
+    {
+        "display_name": "Aggressive Deployment",
+        "name": "aggressivedeployment"
+    },
+    {
+        "display_name": "Alien Incubation",
+        "name": "alienincubation"
+    },
+    {
+        "display_name": "Avenger",
+        "name": "avenger"
+    },
+    {
+        "display_name": "Barrier",
+        "name": "barrier"
+    },
+    {
+        "display_name": "Black Death",
+        "name": "blackdeath"
+    },
+    {
+        "display_name": "Blizzard",
+        "name": "blizzard"
+    },
+    {
+        "display_name": "Boom Bots",
+        "name": "boombots"
+    },
+    {
+        "display_name": "Chaos Studios",
+        "name": "chaosstudios"
+    },
+    {
+        "display_name": "Concussive Attacks",
+        "name": "concussiveattacks"
+    },
+    {
+        "display_name": "Darkness",
+        "name": "darkness"
+    },
+    {
+        "display_name": "Diffusion",
+        "name": "diffusion"
+    },
+    {
+        "display_name": "Double Edged",
+        "name": "doubleedged"
+    },
+    {
+        "display_name": "Eminent Domain",
+        "name": "eminentdomain"
+    },
+    {
+        "display_name": "Evasive Maneuvers",
+        "name": "evasivemaneuvers"
+    },
+    {
+        "display_name": "Fatal Attraction",
+        "name": "fatalattraction"
+    },
+    {
+        "display_name": "Fear",
+        "name": "fear"
+    },
+    {
+        "display_name": "Fireworks",
+        "name": "fireworks"
+    },
+    {
+        "display_name": "Gift Exchange",
+        "name": "giftexchange"
+    },
+    {
+        "display_name": "Going Nuclear",
+        "name": "goingnuclear"
+    },
+    {
+        "display_name": "Hardened Will",
+        "name": "hardenedwill"
+    },
+    {
+        "display_name": "Heroes From the Storm",
+        "name": "heroesfromthestorm"
+    },
+    {
+        "display_name": "Inspiration",
+        "name": "inspiration"
+    },
+    {
+        "display_name": "Just Die",
+        "name": "justdie"
+    },
+    {
+        "display_name": "Kill Bots",
+        "name": "killbots"
+    },
+    {
+        "display_name": "Laser Drill",
+        "name": "laserdrill"
+    },
+    {
+        "display_name": "Lava Burst",
+        "name": "lavaburst"
+    },
+    {
+        "display_name": "Life Leech",
+        "name": "lifeleech"
+    },
+    {
+        "display_name": "Long Range",
+        "name": "longrange"
+    },
+    {
+        "display_name": "Lucky Envelopes",
+        "name": "luckyenvelopes"
+    },
+    {
+        "display_name": "Mag-nificent",
+        "name": "magnificent"
+    },
+    {
+        "display_name": "Micro Transactions",
+        "name": "microtransactions"
+    },
+    {
+        "display_name": "Mineral Shields",
+        "name": "mineralshields"
+    },
+    {
+        "display_name": "Minesweeper",
+        "name": "minesweeper"
+    },
+    {
+        "display_name": "Missile Command",
+        "name": "missilecommand"
+    },
+    {
+        "display_name": "Moment of Silence",
+        "name": "momentofsilence"
+    },
+    {
+        "display_name": "Mutually Assured Destruction",
+        "name": "mutuallyassureddestruction"
+    },
+    {
+        "display_name": "Naughty List",
+        "name": "naughtylist"
+    },
+    {
+        "display_name": "Orbital Strike",
+        "name": "orbitalstrike"
+    },
+    {
+        "display_name": "Outbreak",
+        "name": "outbreak"
+    },
+    {
+        "display_name": "Photon Overload",
+        "name": "photonoverload"
+    },
+    {
+        "display_name": "Polarity",
+        "name": "polarity"
+    },
+    {
+        "display_name": "Power Overwhelming",
+        "name": "poweroverwhelming"
+    },
+    {
+        "display_name": "Propagators",
+        "name": "propagators"
+    },
+    {
+        "display_name": "Purifier Beam",
+        "name": "purifierbeam"
+    },
+    {
+        "display_name": "Random",
+        "name": "random"
+    },
+    {
+        "display_name": "Scorched Earth",
+        "name": "scorchedearth"
+    },
+    {
+        "display_name": "Self Destruction",
+        "name": "selfdestruction"
+    },
+    {
+        "display_name": "Sharing is Caring",
+        "name": "sharingiscaring"
+    },
+    {
+        "display_name": "Shortsighted",
+        "name": "shortsighted"
+    },
+    {
+        "display_name": "Slim Pickings",
+        "name": "slimpickings"
+    },
+    {
+        "display_name": "Speed Freaks",
+        "name": "speedfreaks"
+    },
+    {
+        "display_name": "Temporal Field",
+        "name": "temporalfield"
+    },
+    {
+        "display_name": "Time Warp",
+        "name": "timewarp"
+    },
+    {
+        "display_name": "Transmutation",
+        "name": "transmutation"
+    },
+    {
+        "display_name": "Trick or Treat",
+        "name": "trickortreat"
+    },
+    {
+        "display_name": "Turkey Shoot",
+        "name": "turkeyshoot"
+    },
+    {
+        "display_name": "Twister",
+        "name": "twister"
+    },
+    {
+        "display_name": "Vertigo",
+        "name": "vertigo"
+    },
+    {
+        "display_name": "Void Reanimators",
+        "name": "voidreanimators"
+    },
+    {
+        "display_name": "Void Rifts",
+        "name": "voidrifts"
+    },
+    {
+        "display_name": "Walking Infested",
+        "name": "walkinginfested"
+    },
+    {
+        "display_name": "We Move Unseen",
+        "name": "wemoveunseen"
+    }
+]

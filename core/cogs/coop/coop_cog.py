@@ -2,12 +2,13 @@ import ast
 import math
 import sys
 import re
+import datetime
 
 import core.consts as consts
 import core.caches as cc
 import core.utils as ut
 
-from core.caches import Commander, Map
+from core.caches import Commander, Map, Mutator, Guide
 from core.field import Field
 from core.requests import RequestType
 from core.custombot import CustomBot
@@ -21,7 +22,8 @@ class CoopCog(Cog, name="Coop"):
     def __init__(self, bot:CustomBot):
         self.bot = bot
 
-    @command(name="c", aliases=["cmd", "comm", "commander"])
+
+    @command(name="cmd", aliases=["c", "comm", "commander"])
     async def commander_cmd(self, ctx:Context, *args):
         """
         Fetches info about a commander
@@ -316,17 +318,16 @@ class CoopCog(Cog, name="Coop"):
                 await self.bot.sendf(ctx, description=description, fields=fields, author=comm.get_profile(), colour=comm.colour, powered=True)
         
 
-    @command(name="m", aliases=["map", "maps", "mission", "missions"])
+    @command(name="map", aliases=["maps", "mission", "missions"])
     async def map_cmd(self, ctx:Context, *args):
         """
         Fetches info about a map/mission
 
         Possible args:
         * none
-        -> Lists all maps
-
+          -> Lists all maps
         * mapalias
-        -> Fetches info about this particular map (no spaces)
+          -> Fetches info about this particular map (no spaces)
 
         Basic usage:
         >>> [prefix]m vt -> description of Void Thrashing
@@ -393,7 +394,6 @@ class CoopCog(Cog, name="Coop"):
 
         else:
             # {"data":"Amon is using Kaldir's warp conduits to transport his troops across the sector. Destroy the shuttles carrying the troops before they reach the warp conduits."}
-            send = False
             description = data["data"]
 
             title = "{0} (**{1}**)".format(map.display_name, map.common_alias)
@@ -402,6 +402,215 @@ class CoopCog(Cog, name="Coop"):
 
             await self.bot.sendf(ctx, title=title, fields=fields, powered=True)
 
+
+    @command(name="guide", aliases=["g", "res", "resource", "guides"])
+    async def guide_cmd(self, ctx:Context, *args):
+        """
+        Fetches guides/resources
+
+        Possible args:
+        * none
+          -> Lists all guides/resources
+        * guidealias
+          -> Fetches a link for this particular guide/resource
+
+        Basic usage:
+        >>> [prefix]g enemy -> guide for enemy army compositions
+        """
+        if ut.early_return(self.bot, ctx):
+            return
+        
+        count = args.__len__()
+        sargs = [a.lower() for a in args] # sanitize to lowercase only
+        if count == 0:
+
+            fields = ()
+            first_half = "```"
+            sec_half = "```"
+            half = cc.guidecache.__len__() // 2
+            c = 0
+
+            for v in cc.guidecache.values():
+                # makes the left hand always have atleast four length, fills with " "
+                format = "\r\n{}".format(v.display_name)
+                if c < half:
+                    first_half += format
+                    c += 1
+                else:
+                    sec_half += format
+
+            first_half += "```"
+            sec_half += "```"
+
+            fields = (Field("All Guides (1/2)", first_half), Field("(2/2)", sec_half))
+
+            footer = "Example: Use \"{0}{1} enemy\" to get more info about enemy army compositions".format(ctx.prefix, ctx.invoked_with)
+
+            await self.bot.sendf(ctx, fields=fields, footer=footer)
+
+            return
+
+        alias = sargs[0]
+
+        if alias in ("h", "help"):
+            await ut.help_wrapper(self.bot, ctx)
+            return
+
+        guide = Guide.from_alias(alias)
+
+        if guide is None:
+            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No guide with alias '{}' found!".format(alias))
+            return
+
+        title = guide.display_name
+
+        fields = (Field("More Info", guide.get_page()),)
+
+        await self.bot.sendf(ctx, title=title, fields=fields, powered=True)
+
+
+    @command(name="mut", aliases=["mutator"])
+    async def mutator_cmd(self, ctx:Context, *args):
+        """
+        Fetches info about mutators
+
+        Possible args:
+        * none
+          -> Lists all mutators
+        * mutatoralias
+          -> Fetches a description of this mutator
+
+        Basic usage:
+        >>> [prefix]mut justdie -> description of Just Die!
+        """
+
+        if ut.early_return(self.bot, ctx):
+            return
+        
+        count = args.__len__()
+        sargs = [a.lower() for a in args] # sanitize to lowercase only
+
+        if count == 0:
+            page_url = "{}/resources/mutators#mutatorList".format(consts.SC2COOP_URL)
+            fields = (Field("All Mutators", page_url),)
+            footer = "Example: Use \"{0}{1} justdie\" to get more info about Just Die!".format(ctx.prefix, ctx.invoked_with)
+
+            await self.bot.sendf(ctx, fields=fields, footer=footer, colour=Colour(0x2d4813))
+
+            return
+
+        alias = sargs[0]
+
+        if alias in ("h", "help"):
+            await ut.help_wrapper(self.bot, ctx)
+            return
+
+        mutator = Mutator.from_alias(alias)
+
+        if mutator is None:
+            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No mutator with alias '{}' found!".format(alias))
+            return
+
+        query = {"mutator":mutator.name}
+        query["type"] = "mutator"
+
+        # if the code gets to here, we have a request to make
+
+        (exception, data) = self.bot.request_handler.get_data_from_site(query)
+
+        if exception:
+            error = "Exception occured with params {}".format(data["params"])
+            if "misc" in data:
+                if data["misc"] == consts.ERR_STR:
+                    error += ": Invalid input"
+            await self.bot.sendf(ctx, error, title=consts.ERR_STR, colour=Colour.red())
+
+        else:
+            # {"name":"Just Die","description":"Enemy units are automatically revived upon death."}
+            description = data["description"]
+
+            author = mutator.get_profile()
+            fields = (Field("Description", description),)
+            fields = fields + (Field("More Info", mutator.get_page()),)
+
+            await self.bot.sendf(ctx, author=author, fields=fields, colour=Colour(0x2d4813), powered=True)
+
+
+    @command(name="weekly", aliases=["current", "muta", "mutation"])
+    async def weekly_cmd(self, ctx:Context):
+        """
+        Fetches info about current weekly mutation
+        """
+
+        if ut.early_return(self.bot, ctx):
+            return
+
+        query = dict()
+        query["type"] = "weekly"
+
+        (exception, data) = self.bot.request_handler.get_data_from_site(query)
+
+        if exception:
+            error = "Exception occured with params {}".format(data["params"])
+            if "misc" in data:
+                if data["misc"] == consts.ERR_STR:
+                    error += ": Invalid input"
+            await self.bot.sendf(ctx, error, title=consts.ERR_STR, colour=Colour.red())
+
+        else:
+            # {"mutationNumber":"234","name":"Mass Manufacturing","mission":"Part and Parcel","mutators":["Propagators","Void Rifts"]}
+            name = data["name"]
+            map = data["mission"]
+            mutators = data["mutators"]
+            number = data["mutationNumber"]
+
+            title = "Mutation #{0}: {1}".format(number, name)
+            fields = (Field("Map", map),)
+            
+            mutators_str = str()
+
+            for display_name in mutators:
+                internal_name = cc.display_name_to_internal_name(display_name)
+                mutator = Mutator.from_alias(internal_name)
+
+                if mutator is None:
+                    await self.bot.sendf(ctx, title=consts.ERR_STR, description="No mutator with alias '{}' found!".format(alias))
+                    return
+
+                query = {"mutator":mutator.name}
+                query["type"] = "mutator"
+
+                # if the code gets to here, we have a request to make
+
+                (exception, data) = self.bot.request_handler.get_data_from_site(query)
+
+                if exception:
+                    error = "Exception occured with params {}".format(data["params"])
+                    if "misc" in data:
+                        if data["misc"] == consts.ERR_STR:
+                            error += ": Invalid input"
+                    await self.bot.sendf(ctx, error, title=consts.ERR_STR, colour=Colour.red())
+
+                else:
+                    # {"name":"Just Die","description":"Enemy units are automatically revived upon death."}
+                    name = mutator.display_name
+                    description = data["description"]
+
+                    mutators_str += "\r\n• **{0}**\r\n{1}".format(name, description)
+
+            fields = fields + (Field("Mutators", mutators_str),)
+
+            today = datetime.date.today()
+            start_of_week = today - datetime.timedelta(days=today.weekday())  # Monday
+            start_of_week_str = start_of_week.strftime("%B %d, %Y")
+
+            url = "{0}/resources/weeklymutations#currentMut".format(consts.SC2COOP_URL)
+
+            more_info = "Week of {0}\r\n{1}".format(start_of_week_str, url)
+
+            fields = fields + (Field("More Info", more_info),)
+
+            await self.bot.sendf(ctx, title=title, fields=fields, colour=Colour(0x2d4813), powered=True)
 
 
 def setup(bot:CustomBot):

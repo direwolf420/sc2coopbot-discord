@@ -44,3 +44,22 @@ VP = "thevermillionproblem"
 VL = "voidlaunch"
 VT = "voidthrashing"
 MAP_COUNT = 15
+
+# guide identifiers for the site
+# guides
+BUILD_ORDER = "buildordertheory"
+ENEMY_COMPS = "enemycomps"
+GENERAL_TIPS = "generaltips"
+NEW_PLAYERS = "newplayer"
+# resources
+ACHIEVEMENTS = "achievements"
+AI_LOGIC = "ailogic"
+BRUTAL_PLUS = "brutal"
+DEATH_PREVENTION = "deathprevention"
+EASTER_EGGS = "eastereggs"
+LEVELS = "levels"
+PATCHDATA = "patchdata"
+STATS = "stats"
+WEEKLYMUTATIONS = "weeklymutations"
+
+GUIDE_COUNT = 13

@@ -8,7 +8,7 @@ def early_return(bot:Bot, ctx:Context):
 
 async def help_wrapper(bot:Bot, ctx:Context):
     """References the doc"""
-    await self.bot.sendf(ctx, title="Use `{0}help {1}`".format(ctx.prefix, ctx.invoked_with))
+    await bot.sendf(ctx, title="Use `{0}help {1}`".format(ctx.prefix, ctx.invoked_with))
 
 def get_last_number(s:str):
     """Returns the last integer found in a string (-1 if none)"""

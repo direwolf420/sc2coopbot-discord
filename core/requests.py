@@ -1,7 +1,7 @@
 import ast
 import sys
 
-import urllib.request
+import urllib
 
 from enum import Enum, auto
 from discord.ext.commands import Bot

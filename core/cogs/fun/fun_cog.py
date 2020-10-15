@@ -23,6 +23,7 @@ class FunCog(Cog, name="Fun"):
 
     @command()
     async def honk(self, ctx:Context):
+        """honk"""
         if ut.early_return(self.bot, ctx):
             return
 
