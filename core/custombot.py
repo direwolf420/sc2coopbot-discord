@@ -9,7 +9,6 @@ from discord.colour import Colour
 from discord import Game
 import discord
 
-from core.botcommands import BotCommands
 from core.requests import RequestHandler
 import core.consts as consts
 
@@ -37,8 +36,6 @@ class CustomBot(Bot):
                          activity=Game(name="{0} | {1}".format(prefix, consts.SC2COOP_URL)),
                          **options)
         self.request_handler = RequestHandler()
-        #self.bot_commands = BotCommands(self)
-        #self.bot_commands.add_commands()
         
         common_prefix = "core.cogs."
         for extension in initial_extensions:

@@ -29,9 +29,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="bot.py" />
-    <Compile Include="core\botcommands.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="core\caches.py">
       <SubType>Code</SubType>
     </Compile>
