@@ -2,6 +2,7 @@ import ast
 import math
 import sys
 import re
+import random
 import datetime
 
 import core.consts as consts
@@ -89,7 +90,9 @@ class CoopCog(Cog, name="Coop"):
 
         comm = Commander.from_alias(alias)
 
-        if comm is None:
+        if alias in ("chill", "rand", "random", "r"):
+            comm = random.choice(list(cc.commandercache.values()))
+        elif comm is None:
             await self.bot.sendf(ctx, title=consts.ERR_STR, description="No commander with alias '{}' found!".format(alias))
             # todo give back list of possible operations
             return
@@ -507,7 +510,9 @@ class CoopCog(Cog, name="Coop"):
 
         mutator = Mutator.from_alias(alias)
 
-        if mutator is None:
+        if alias in ("chill", "rand", "random", "r"):
+            mutator = random.choice(list(cc.mutatorcache.values()))
+        elif mutator is None:
             await self.bot.sendf(ctx, title=consts.ERR_STR, description="No mutator with alias '{}' found!".format(alias))
             return
 
@@ -536,7 +541,7 @@ class CoopCog(Cog, name="Coop"):
             await self.bot.sendf(ctx, author=author, fields=fields, colour=Colour(0x2d4813), powered=True)
 
 
-    @command(name="weekly", aliases=["current", "muta", "mutation"])
+    @command(name="weekly", aliases=["w", "current", "muta", "mutation"])
     async def weekly_cmd(self, ctx:Context):
         """
         Fetches info about current weekly mutation

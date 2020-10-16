@@ -64,9 +64,6 @@
     <Folder Include="core\cogs\fun\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="core\cogs\fun\trivia.json">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="README.md">
       <SubType>Code</SubType>
     </Content>

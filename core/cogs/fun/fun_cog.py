@@ -30,7 +30,7 @@ class FunCog(Cog, name="Fun"):
         await self.bot.sendf(ctx, image_url=consts.HONK_URL)
 
         
-    @command(aliases=["pong"])
+    @command(aliases=["pong", "p"])
     async def ping(self, ctx:Context):
         """
         Returns the latency
