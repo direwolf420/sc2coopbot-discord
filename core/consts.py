@@ -1,4 +1,5 @@
 SC2COOP_URL = "https://starcraft2coop.com"
+REPO_RAW_URL = "https://raw.githubusercontent.com/direwolf420/sc2coopbot-discord/main"
 PREFIX = "c!"
 PREFIX_DEBUG = "d!"
 HONK_URL = "https://ih1.redbubble.net/image.928162828.3517/flat,750x1000,075,f.jpg"

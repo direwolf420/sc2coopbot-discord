@@ -79,7 +79,7 @@ class Commander(Aliasable):
         super().__init__(name, display_name, aliases)
         self._image_url = "{}/images/commanderportraits/{}portrait.png".format(consts.SC2COOP_URL, self.name)
         self._page_url = "{}/commanders/{}".format(consts.SC2COOP_URL, self.name)
-        self._summary_url = "{}/images/endpoints/{}.png".format(consts.SC2COOP_URL, self.name)
+        self._summary_url = "{}/commanderimages/{}.png".format(consts.REPO_RAW_URL, self.name)
 
         self.colour = colour
 
