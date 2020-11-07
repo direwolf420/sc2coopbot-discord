@@ -75,13 +75,15 @@ class Mutator(Aliasable):
 
 class Commander(Aliasable):
 
-    def __init__(self, name:str, display_name:str, aliases:list, colour:Colour):
+    def __init__(self, name:str, display_name:str, aliases:list, colour:Colour, fun:list=None):
         super().__init__(name, display_name, aliases)
         self._image_url = "{}/images/commanderportraits/{}portrait.png".format(consts.SC2COOP_URL, self.name)
         self._page_url = "{}/commanders/{}".format(consts.SC2COOP_URL, self.name)
         self._summary_url = "{}/commanderimages/{}.png".format(consts.REPO_RAW_URL, self.name)
 
         self.colour = colour
+        self.fun = fun
+        self.has_fun = self.fun is not None
 
     def get_profile(self):
         return (self.display_name, self._image_url)
@@ -153,24 +155,24 @@ def display_name_to_internal_name(display_name:str):
 
 commandercache = dict()
 
-commandercache[consts.RAYNOR] = Commander(consts.RAYNOR, "Raynor", ["ray", "cowboy", "hotshot", "jim", "jimmy", "chief", "lila", "lilarrin"], Colour(0x0042ff))
-commandercache[consts.KERRIGAN] = Commander(consts.KERRIGAN, "Kerrigan", ["kerri", "sarah", "queen"], Colour(0xff00ff))
-commandercache[consts.ARTANIS] = Commander(consts.ARTANIS, "Artanis", ["arti", "arty", "sinatra", "skippy"], Colour(0x1ca7ea))
-commandercache[consts.SWANN] = Commander(consts.SWANN, "Swann", ["rory"], Colour(0xfe8a0e))
+commandercache[consts.RAYNOR] = Commander(consts.RAYNOR, "Raynor", ["ray", "raider", "renegade", "cowboy", "hotshot", "jim", "jimmy", "chief", "marshal", "lila", "lilarrin"], Colour(0x0042ff))
+commandercache[consts.KERRIGAN] = Commander(consts.KERRIGAN, "Kerrigan", ["kerri", "sarah", "queen", "queenofblades", "blades"], Colour(0xff00ff))
+commandercache[consts.ARTANIS] = Commander(consts.ARTANIS, "Artanis", ["arti", "arty", "sinatra", "skippy", "hierarch"], Colour(0x1ca7ea), ["skippy"])
+commandercache[consts.SWANN] = Commander(consts.SWANN, "Swann", ["rory", "engineer"], Colour(0xfe8a0e))
 commandercache[consts.ZAGARA] = Commander(consts.ZAGARA, "Zagara", ["zag", "zergy", "overqueen", "broodmother"], Colour(0x3300bf))
 commandercache[consts.VORAZUN] = Commander(consts.VORAZUN, "Vorazun", ["vora", "matriarch"], Colour(0x540081))
-commandercache[consts.KARAX] = Commander(consts.KARAX, "Karax", ["cannonrusher", "phasesmith", "phase-smith"], Colour(0xebe129))
+commandercache[consts.KARAX] = Commander(consts.KARAX, "Karax", ["cannonrusher", "phasesmith", "phase-smith"], Colour(0xebe129), ["wide", "dj"])
 commandercache[consts.ABATHUR] = Commander(consts.ABATHUR, "Abathur", ["aba", "slug", "eddie"], Colour(0xebe129))
-commandercache[consts.ALARAK] = Commander(consts.ALARAK, "Alarak", ["ala", "highlord"], Colour(0x400000))
+commandercache[consts.ALARAK] = Commander(consts.ALARAK, "Alarak", ["ala", "highlord"], Colour(0x400000), ["viper"])
 commandercache[consts.NOVA] = Commander(consts.NOVA, "Nova", ["ace", "ass", "november", "terra", "annabella"], Colour(0x1ca7ea))
-commandercache[consts.STUKOV] = Commander(consts.STUKOV, "Stukov", ["stuk", "stucco"], Colour(0xcca6fc))
-commandercache[consts.FENIX] = Commander(consts.FENIX, "Fenix", ["talandar", "purifier"], Colour(0xfe8a0e))
-commandercache[consts.DEHAKA] = Commander(consts.DEHAKA, "Dehaka", ["haka", "rockslapper", "rockslap", "rock", "catsicle", "cat", "meme"], Colour(0x69c7d6))
-commandercache[consts.HORNER] = Commander(consts.HORNER, "Han & Horner", ["han", "hanhorner", "hanandhorner", "han&horner", "hnh", "hh", "h&h", "mira", "matt"], Colour(0x4a1b47))
-commandercache[consts.TYCHUS] = Commander(consts.TYCHUS, "Tychus", ["tych", "findlay"], Colour(0xa76942))
+commandercache[consts.STUKOV] = Commander(consts.STUKOV, "Stukov", ["stuk", "stucco", "infested", "admiral"], Colour(0xcca6fc))
+commandercache[consts.FENIX] = Commander(consts.FENIX, "Fenix", ["talandar", "purifier", "pope"], Colour(0xfe8a0e), ["pope"])
+commandercache[consts.DEHAKA] = Commander(consts.DEHAKA, "Dehaka", ["haka", "primal", "packleader", "rockslapper", "rockslap", "rock", "catsicle", "cat", "meme"], Colour(0x69c7d6))
+commandercache[consts.HORNER] = Commander(consts.HORNER, "Han & Horner", ["han", "hanhorner", "hanandhorner", "han&horner", "hnh", "hh", "h&h", "mira", "matt", "mercenary", "dominion"], Colour(0x4a1b47))
+commandercache[consts.TYCHUS] = Commander(consts.TYCHUS, "Tychus", ["tych", "findlay", "outlaw"], Colour(0xa76942))
 commandercache[consts.ZERATUL] = Commander(consts.ZERATUL, "Zeratul", ["zera", "tool", "zeratool", "prelate", "zeracool"], Colour(0x00a762))
 commandercache[consts.STETMANN] = Commander(consts.STETMANN, "Stetmann", ["egon", "stet", "stetman", "lagman", "lagmann", "stetboi", "scientist"], Colour(0xfe8a0e))
-commandercache[consts.MENGSK] = Commander(consts.MENGSK, "Mengsk", ["arcturus", "emperor"], Colour(0x661f1f))
+commandercache[consts.MENGSK] = Commander(consts.MENGSK, "Mengsk", ["arcturus", "emperor", "inhumane"], Colour(0x661f1f))
 
 assert commandercache.__len__() == consts.COMM_COUNT
 assert verify_duplicates(commandercache)

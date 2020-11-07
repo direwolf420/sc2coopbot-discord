@@ -61,9 +61,7 @@ class CoopCog(Cog, name="Coop"):
             sec_half = "```"
             half = cc.commandercache.__len__() // 2
             c = 0
-            #TODO split it up
             for v in cc.commandercache.values():
-                # makes the left hand always have atleast four length, fills with " "
                 format = "\r\n{}".format(v.display_name)
                 if c < half:
                     first_half += format
@@ -94,12 +92,19 @@ class CoopCog(Cog, name="Coop"):
             comm = random.choice(list(cc.commandercache.values()))
         elif comm is None:
             await self.bot.sendf(ctx, title=consts.ERR_STR, description="No commander with alias '{}' found!".format(alias))
-            # todo give back list of possible operations
             return
 
         queryType = RequestType.NONE
 
         if count == 1:
+            # fun
+            if random.random() < 0.1:
+                if comm.has_fun:
+                    rand = random.choice(list(comm.fun))
+                    url = "{0}/commanderimages/fun/{1}_{2}.png".format(consts.REPO_RAW_URL, comm.name, rand)
+                    await self.bot.sendf(ctx, colour=comm.colour, image_url=url)
+                    return
+
             more_info = comm.get_page(queryType)
             more_info += "\r\nAdditional options: Type `{0}help {1}`".format(ctx.prefix, ctx.invoked_with)
             fields = (Field("More Info", more_info),)
@@ -434,7 +439,6 @@ class CoopCog(Cog, name="Coop"):
             c = 0
 
             for v in cc.guidecache.values():
-                # makes the left hand always have atleast four length, fills with " "
                 format = "\r\n{}".format(v.display_name)
                 if c < half:
                     first_half += format

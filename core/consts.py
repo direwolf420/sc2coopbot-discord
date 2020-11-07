@@ -62,5 +62,4 @@ LEVELS = "levels"
 PATCHDATA = "patchdata"
 STATS = "stats"
 WEEKLYMUTATIONS = "weeklymutations"
-
 GUIDE_COUNT = 13

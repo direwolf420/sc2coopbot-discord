@@ -42,7 +42,7 @@ class CustomBot(Bot):
             try:
                 self.load_extension(common_prefix + extension)
             except Exception as e:
-                print("Failed to load extension {}.".format(extension), file=sys.stderr)
+                print("Failed to load extension {0}: {1}".format(extension, e), file=sys.stdout)
 
     async def on_ready(self):
         print(f"{self.user} has connected to Discord!")
