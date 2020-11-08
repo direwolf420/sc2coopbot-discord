@@ -170,7 +170,7 @@ commandercache[consts.FENIX] = Commander(consts.FENIX, "Fenix", ["talandar", "pu
 commandercache[consts.DEHAKA] = Commander(consts.DEHAKA, "Dehaka", ["haka", "primal", "packleader", "rockslapper", "rockslap", "rock", "catsicle", "cat", "meme"], Colour(0x69c7d6))
 commandercache[consts.HORNER] = Commander(consts.HORNER, "Han & Horner", ["han", "hanhorner", "hanandhorner", "han&horner", "hnh", "hh", "h&h", "mira", "matt", "mercenary", "dominion"], Colour(0x4a1b47))
 commandercache[consts.TYCHUS] = Commander(consts.TYCHUS, "Tychus", ["tych", "findlay", "outlaw"], Colour(0xa76942))
-commandercache[consts.ZERATUL] = Commander(consts.ZERATUL, "Zeratul", ["zera", "tool", "zeratool", "prelate", "zeracool"], Colour(0x00a762))
+commandercache[consts.ZERATUL] = Commander(consts.ZERATUL, "Zeratul", ["zera", "tool", "zeratool", "prelate", "zeracool"], Colour(0x00a762), ["cannon"])
 commandercache[consts.STETMANN] = Commander(consts.STETMANN, "Stetmann", ["egon", "stet", "stetman", "lagman", "lagmann", "stetboi", "scientist"], Colour(0xfe8a0e), ["fire"])
 commandercache[consts.MENGSK] = Commander(consts.MENGSK, "Mengsk", ["arcturus", "emperor", "inhumane"], Colour(0x661f1f))
 
