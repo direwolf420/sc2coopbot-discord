@@ -24,7 +24,7 @@ class CoopCog(Cog, name="Coop"):
         self.bot = bot
 
 
-    @command(name="cmd", aliases=["c", "comm", "commander"])
+    @command(name="comm", aliases=["c", "cmd", "commander"])
     async def commander_cmd(self, ctx:Context, *args):
         """
         Fetches info about a commander
@@ -479,7 +479,7 @@ class CoopCog(Cog, name="Coop"):
     @command(name="mut", aliases=["mutator"])
     async def mutator_cmd(self, ctx:Context, *args):
         """
-        Fetches info about mutators
+        Fetches info about a mutator
 
         Possible args:
         * none
@@ -548,7 +548,7 @@ class CoopCog(Cog, name="Coop"):
     @command(name="weekly", aliases=["w", "current", "muta", "mutation"])
     async def weekly_cmd(self, ctx:Context):
         """
-        Fetches info about current weekly mutation
+        Fetches info about the current weekly mutation
         """
 
         if ut.early_return(self.bot, ctx):

@@ -50,7 +50,44 @@ class FunCog(Cog, name="Fun"):
         count = args.__len__()
         sargs = [a.lower() for a in args] # sanitize to lowercase only
         if count == 0:
-            await ut.help_wrapper(self.bot, ctx)
+
+            comms_with_fun = list()
+            for comm in cc.commandercache.values():
+                if comm.has_fun:
+                    comms_with_fun.append(comm)
+
+            fun_count = comms_with_fun.__len__()
+
+            if fun_count == 0:
+                await self.bot.sendf(ctx, description="No images available yet!")
+                return
+
+            half = fun_count // 2
+            
+            fields = ()
+            first_half = "```"
+            sec_half = "```"
+
+            c = 0
+            for comm in comms_with_fun:
+                format = "\r\n{}".format(comm.display_name)
+                if c < half or fun_count == 1:
+                    first_half += format
+                    c += 1
+                else:
+                    sec_half += format
+
+            first_half += "```"
+            sec_half += "```"
+
+            fields = (Field("Available Commanders (1/2)", first_half), Field("(2/2)", sec_half))
+
+            if fun_count == 1:
+                fields = (Field("Available Commanders", first_half),)
+
+            comm = random.choice(comms_with_fun)
+            footer = "Example: \"{0}{1} {2} {3}\"".format(ctx.prefix, ctx.invoked_with, comm.name, random.choice(comm.fun))
+            await self.bot.sendf(ctx, fields=fields, footer=footer)
             return
 
         alias = sargs[0]
@@ -96,7 +133,7 @@ class FunCog(Cog, name="Fun"):
             if fun_count == 1:
                 fields = (Field("Available Images", first_half),)
 
-            footer = "Example: Use \"{0}{1} karax wide\" to get a funny image of a wide karax".format(ctx.prefix, ctx.invoked_with)
+            footer = "Example: \"{0}{1} {2} {3}\"".format(ctx.prefix, ctx.invoked_with, alias, random.choice(comm.fun))
 
             await self.bot.sendf(ctx, fields=fields, footer=footer)
             return
