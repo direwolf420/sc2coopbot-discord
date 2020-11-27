@@ -132,7 +132,7 @@ def verify_duplicates(cache:dict):
     for v in cache.values():
         if not isinstance(v, Aliasable):
             # to make sure we can use the aliases field
-            raise Exception("{} is not  of type 'Aliasable'".format(v))
+            raise Exception("{} is not of type 'Aliasable'".format(v))
 
         for alias in v.aliases:
             if alias not in uniques:
@@ -240,7 +240,7 @@ mutatorcache = dict()
 with open(file) as handle:
     mutatordata = json.load(handle)
 
-    if mutatordata.__len__() is 0:
+    if mutatordata.__len__() == 0:
         raise Exception("Invalid file '{}'".format(file))
 
     for m in mutatordata:
