@@ -172,7 +172,7 @@ commandercache[consts.HORNER] = Commander(consts.HORNER, "Han & Horner", ["han",
 commandercache[consts.TYCHUS] = Commander(consts.TYCHUS, "Tychus", ["tych", "findlay", "outlaw"], Colour(0xa76942))
 commandercache[consts.ZERATUL] = Commander(consts.ZERATUL, "Zeratul", ["zera", "tool", "zeratool", "prelate", "zeracool"], Colour(0x00a762), ["cannon"])
 commandercache[consts.STETMANN] = Commander(consts.STETMANN, "Stetmann", ["egon", "stet", "stetman", "lagman", "lagmann", "stetboi", "scientist"], Colour(0xfe8a0e), ["fire"])
-commandercache[consts.MENGSK] = Commander(consts.MENGSK, "Mengsk", ["arcturus", "emperor", "inhumane"], Colour(0x661f1f))
+commandercache[consts.MENGSK] = Commander(consts.MENGSK, "Mengsk", ["arcturus", "emperor", "inhumane"], Colour(0x661f1f), ["inhumane"])
 
 assert commandercache.__len__() == consts.COMM_COUNT
 assert verify_duplicates(commandercache)
