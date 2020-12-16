@@ -570,6 +570,8 @@ class CoopCog(Cog, name="Coop"):
             # {"mutationNumber":"234","name":"Mass Manufacturing","mission":"Part and Parcel","mutators":["Propagators","Void Rifts"]}
             name = data["name"]
             map = data["mission"]
+            if map is None or map.__len__() == 0:
+                map = "Unknown"
             mutators = data["mutators"]
             number = data["mutationNumber"]
 
