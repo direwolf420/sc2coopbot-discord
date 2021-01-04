@@ -31,7 +31,11 @@ class RequestHandler():
             #        return (False, data)
 
             # blocking = bad
-            with urllib.request.urlopen(url) as f:
+            user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
+            headers={'User-Agent':user_agent} 
+            request=urllib.request.Request(url, None, headers)
+
+            with urllib.request.urlopen(request) as f:
                 response = f.read()
                 s = response.decode('utf-8')
                 if s == consts.ERR_STR:
