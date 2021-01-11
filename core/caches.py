@@ -1,3 +1,4 @@
+import difflib
 import json
 import re
 import os
@@ -7,6 +8,7 @@ from abc import ABC, abstractmethod
 from discord.colour import Colour
 
 import core.consts as consts
+import core.utils as utils
 from core.requests import RequestType
 
 class Aliasable(ABC):
@@ -22,6 +24,11 @@ class Aliasable(ABC):
         self.aliases.append(self.name)
         
     # order matters here
+    @staticmethod
+    @abstractmethod
+    def from_alias_direct(name:str):
+        pass
+
     @staticmethod
     @abstractmethod
     def from_alias(alias:str):
@@ -42,14 +49,33 @@ class Guide(Aliasable):
     def get_page(self):
         return self._page_url
 
-    def from_alias(alias:str):
-        """returns a Guide if it matches that alias, None if not found"""
-        # that's how you access super from a static method
-        super(Guide, Guide).from_alias(alias)
+    def from_alias_direct(name:str):
+        """returns a Guide if it matches that name, None if not found"""
+        super(Guide, Guide).from_alias_direct(name)
         for k,v in guidecache.items():
-            if alias in v.aliases:
+            if name in v.aliases:
                 return v
         return None
+
+    def from_alias(alias:str):
+        """Tuple
+        returns a Guide if it matches that alias, None if not found
+        matches will contain a list of similar aliases"""
+        # that's how you access super from a static method
+        super(Guide, Guide).from_alias(alias)
+        res = Guide.from_alias_direct(alias)
+
+        if res is not None:
+            return (res, [])
+
+        matches = utils.get_matches(alias, guidenames)
+
+        if alias in matches:
+            return (Guide.from_alias_direct(alias), matches)
+        elif matches.__len__() == 1:
+            return (Guide.from_alias_direct(matches[0]), matches)
+        else:
+            return (None, matches)
 
 class Mutator(Aliasable):
 
@@ -64,14 +90,32 @@ class Mutator(Aliasable):
     def get_profile(self):
         return (self.display_name, self._image_url)
 
-    def from_alias(alias:str):
-        """returns a Mutator if it matches that alias, None if not found"""
-        # TODO difflib stuff here cause no way im manually typing out all possible mutator aliases
-        super(Mutator, Mutator).from_alias(alias)
+    def from_alias_direct(name:str):
+        """returns a Mutator if it matches that name, None if not found"""
+        super(Mutator, Mutator).from_alias_direct(name)
         for k,v in mutatorcache.items():
-            if alias in v.aliases:
+            if name in v.aliases:
                 return v
         return None
+
+    def from_alias(alias:str):
+        """Tuple
+        returns a Mutator if it matches that alias, None if not found
+        matches will contain a list of similar aliases"""
+        super(Mutator, Mutator).from_alias(alias)
+        res = Mutator.from_alias_direct(alias)
+
+        if res is not None:
+            return (res, [])
+
+        matches = utils.get_matches(alias, mutatornames)
+
+        if alias in matches:
+            return (Mutator.from_alias_direct(alias), matches)
+        elif matches.__len__() == 1:
+            return (Mutator.from_alias_direct(matches[0]), matches)
+        else:
+            return (None, matches)
 
 class Commander(Aliasable):
 
@@ -98,14 +142,33 @@ class Commander(Aliasable):
             return "{0}#{1}".format(url, anchor)
         return self._page_url
 
-    def from_alias(alias:str):
-        """returns a Commander if it matches that alias, None if not found"""
-        # that's how you access super from a static method
-        super(Commander, Commander).from_alias(alias)
+    def from_alias_direct(name:str):
+        """returns a Mutator if it matches that name, None if not found"""
+        super(Commander, Commander).from_alias_direct(name)
         for k,v in commandercache.items():
-            if alias in v.aliases:
+            if name in v.aliases:
                 return v
         return None
+
+    def from_alias(alias:str):
+        """Tuple
+        returns a Commander if it matches that alias, None if not found
+        matches will contain a list of similar aliases"""
+        # that's how you access super from a static method
+        super(Commander, Commander).from_alias(alias)
+        res = Commander.from_alias_direct(alias)
+
+        if res is not None:
+            return (res, [])
+
+        matches = utils.get_matches(alias, commandernames)
+
+        if alias in matches:
+            return (Commander.from_alias_direct(alias), matches)
+        elif matches.__len__() == 1:
+            return (Commander.from_alias_direct(matches[0]), matches)
+        else:
+            return (None, matches)
 
 class Map(Aliasable):
 
@@ -118,13 +181,32 @@ class Map(Aliasable):
     def get_page(self):
         return self._page_url
 
-    def from_alias(alias:str):
-        """returns a Map if it matches that alias, None if not found"""
-        super(Map, Map).from_alias(alias)
+    def from_alias_direct(name:str):
+        """returns a Map if it matches that name, None if not found"""
+        super(Map, Map).from_alias_direct(name)
         for k,v in mapcache.items():
-            if alias in v.aliases:
+            if name in v.aliases:
                 return v
         return None
+
+    def from_alias(alias:str):
+        """Tuple
+        returns a Map if it matches that alias, None if not found
+        matches will contain a list of similar aliases"""
+        super(Map, Map).from_alias(alias)
+        res = Map.from_alias_direct(alias)
+
+        if res is not None:
+            return (res, [])
+
+        matches = utils.get_matches(alias, mapnames)
+
+        if alias in matches:
+            return (Map.from_alias_direct(alias), matches)
+        elif matches.__len__() == 1:
+            return (Map.from_alias_direct(matches[0]), matches)
+        else:
+            return (None, matches)
 
 def verify_duplicates(cache:dict):
     uniques = set()
@@ -167,7 +249,7 @@ commandercache[consts.ALARAK] = Commander(consts.ALARAK, "Alarak", ["ala", "high
 commandercache[consts.NOVA] = Commander(consts.NOVA, "Nova", ["ace", "ass", "november", "terra", "annabella"], Colour(0x1ca7ea))
 commandercache[consts.STUKOV] = Commander(consts.STUKOV, "Stukov", ["stuk", "stucco", "infested", "admiral"], Colour(0xcca6fc), ["fire", "overlord"])
 commandercache[consts.FENIX] = Commander(consts.FENIX, "Fenix", ["talandar", "purifier", "pope"], Colour(0xfe8a0e), ["pope"])
-commandercache[consts.DEHAKA] = Commander(consts.DEHAKA, "Dehaka", ["haka", "primal", "packleader", "rockslapper", "rockslap", "rock", "catsicle", "cat", "meme"], Colour(0x69c7d6))
+commandercache[consts.DEHAKA] = Commander(consts.DEHAKA, "Dehaka", ["haka", "zweihaka", "primal", "packleader", "rockslapper", "rockslap", "rock", "catsicle", "cat", "meme"], Colour(0x69c7d6))
 commandercache[consts.HORNER] = Commander(consts.HORNER, "Han & Horner", ["han", "hanhorner", "hanandhorner", "han&horner", "hnh", "hh", "h&h", "mira", "matt", "mercenary", "dominion"], Colour(0x4a1b47))
 commandercache[consts.TYCHUS] = Commander(consts.TYCHUS, "Tychus", ["tych", "findlay", "outlaw"], Colour(0xa76942))
 commandercache[consts.ZERATUL] = Commander(consts.ZERATUL, "Zeratul", ["zera", "tool", "zeratool", "prelate", "zeracool"], Colour(0x00a762), ["cannon"])
@@ -177,26 +259,34 @@ commandercache[consts.MENGSK] = Commander(consts.MENGSK, "Mengsk", ["arcturus", 
 assert commandercache.__len__() == consts.COMM_COUNT
 assert verify_duplicates(commandercache)
 
+commandernames = list(commandercache.keys())
+commanderaliases = []
+utils.seq_to_list_str([x.aliases for x in commandercache.values()], commanderaliases)
+
 mapcache = dict()
 
 mapcache[consts.COA] = Map(consts.COA, "Chain of Ascension", ["chain", "ascension"], "CoA")
-mapcache[consts.COD] = Map(consts.COD, "Cradle of Death", ["cradle", "death", "tomato", "tomatofarm", "farm", "cok", "truck"], "CoD")
+mapcache[consts.COD] = Map(consts.COD, "Cradle of Death", ["cradle", "death", "tomato", "tomatofarm", "farm", "cok", "truck", "trucks"], "CoD")
 mapcache[consts.DON] = Map(consts.DON, "Dead of Night", ["dead", "night"], "DoN")
 mapcache[consts.LNL] = Map(consts.LNL, "Lock and Load", ["lockandload", "lock", "l&l", "ll"], "LnL")
-mapcache[consts.MW] = Map(consts.MW, "Malwarfare", ["mal", "warfare"], "MW")
+mapcache[consts.MW] = Map(consts.MW, "Malwarfare", ["mal", "warfare", "aurana"], "MW")
 mapcache[consts.ME] = Map(consts.ME, "Miner Evacuation", ["miner", "evacuation"], "ME")
 mapcache[consts.MO] = Map(consts.MO, "Mist Opportunities", ["mist", "opportunities"], "MO")
-mapcache[consts.OE] = Map(consts.OE, "Oblivion Express", ["oblivion", "express", "orgo"], "OE")
+mapcache[consts.OE] = Map(consts.OE, "Oblivion Express", ["oblivion", "express", "orgo", "trains"], "OE")
 mapcache[consts.PNP] = Map(consts.PNP, "Part and Parcel", ["partandparcel", "part", "parcel", "p&p", "pp", "cancer"], "PnP")
 mapcache[consts.RTK] = Map(consts.RTK, "Rifts to Korhal", ["rifts", "korhal"], "RtK")
 mapcache[consts.SOA] = Map(consts.SOA, "Scythe of Amon", ["scythe", "amon"], "SoA")
 mapcache[consts.TOTP] = Map(consts.TOTP, "Temple of the Past", ["temple", "past"], "TotP")
 mapcache[consts.VP] = Map(consts.VP, "Vermillion Problem", ["vermillion", "problem"], "VP")
-mapcache[consts.VL] = Map(consts.VL, "Void Launch", ["launch"], "VL")
+mapcache[consts.VL] = Map(consts.VL, "Void Launch", ["launch", "shuttle", "shuttles"], "VL")
 mapcache[consts.VT] = Map(consts.VT, "Void Thrashing", ["void", "thrash", "thrashing", "trashing", "hammer"], "VT")
 
 assert mapcache.__len__() == consts.MAP_COUNT
 assert verify_duplicates(mapcache)
+
+mapnames = list(mapcache.keys())
+mapaliases = []
+utils.seq_to_list_str([x.aliases for x in mapcache.values()], mapaliases)
 
 guidecache = dict()
 
@@ -219,6 +309,10 @@ guidecache[consts.WEEKLYMUTATIONS] = Guide(consts.WEEKLYMUTATIONS, source, "Week
 
 assert guidecache.__len__() == consts.GUIDE_COUNT
 assert verify_duplicates(guidecache)
+
+guidenames = list(guidecache.keys())
+guidealiases = []
+utils.seq_to_list_str([x.aliases for x in guidecache.values()], guidealiases)
 
 file = "mutators.json"
 if not os.path.exists(file):
@@ -248,3 +342,7 @@ with open(file) as handle:
         display_name = m["display_name"]
         mutatorcache[name] = Mutator(name, display_name, [])
 
+        
+mutatornames = list(mutatorcache.keys())
+mutatoraliases = []
+utils.seq_to_list_str([x.aliases for x in mutatorcache.values()], mutatoraliases)

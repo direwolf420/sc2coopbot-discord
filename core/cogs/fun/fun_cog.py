@@ -96,10 +96,13 @@ class FunCog(Cog, name="Fun"):
             await ut.help_wrapper(self.bot, ctx)
             return
 
-        comm = Commander.from_alias(alias)
+        (comm, matches) = Commander.from_alias(alias)
 
         if comm is None:
-            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No commander with alias '{}' found!".format(alias))
+            fields = ()
+            if matches.__len__() > 0:
+                fields = (Field("Did you mean:", "```{}```".format(", ".join(matches))),)
+            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No commander with alias '{}' found!".format(alias), fields=fields)
             return
 
         queryType = RequestType.NONE

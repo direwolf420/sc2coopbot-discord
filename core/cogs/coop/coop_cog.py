@@ -86,12 +86,15 @@ class CoopCog(Cog, name="Coop"):
             await ut.help_wrapper(self.bot, ctx)
             return
 
-        comm = Commander.from_alias(alias)
+        (comm, matches) = Commander.from_alias(alias)
 
         if alias in ("chill", "rand", "random", "r"):
             comm = random.choice(list(cc.commandercache.values()))
         elif comm is None:
-            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No commander with alias '{}' found!".format(alias))
+            fields = ()
+            if matches.__len__() > 0:
+                fields = (Field("Did you mean:", "```{}```".format(", ".join(matches))),)
+            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No commander with alias '{}' found!".format(alias), fields=fields)
             return
 
         queryType = RequestType.NONE
@@ -380,10 +383,13 @@ class CoopCog(Cog, name="Coop"):
             await ut.help_wrapper(self.bot, ctx)
             return
 
-        map = Map.from_alias(alias)
+        (map, matches) = Map.from_alias(alias)
 
         if map is None:
-            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No map/mission with alias '{}' found!".format(alias))
+            fields = ()
+            if matches.__len__() > 0:
+                fields = (Field("Did you mean:", "```{}```".format(", ".join(matches))),)
+            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No map/mission with alias '{}' found!".format(alias), fields=fields)
             return
 
         query = {"mission":map.name}
@@ -463,10 +469,13 @@ class CoopCog(Cog, name="Coop"):
             await ut.help_wrapper(self.bot, ctx)
             return
 
-        guide = Guide.from_alias(alias)
+        (guide, matches) = Guide.from_alias(alias)
 
         if guide is None:
-            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No guide with alias '{}' found!".format(alias))
+            fields = ()
+            if matches.__len__() > 0:
+                fields = (Field("Did you mean:", "```{}```".format(", ".join(matches))),)
+            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No guide with alias '{}' found!".format(alias), fields=fields)
             return
 
         title = guide.display_name
@@ -512,12 +521,15 @@ class CoopCog(Cog, name="Coop"):
             await ut.help_wrapper(self.bot, ctx)
             return
 
-        mutator = Mutator.from_alias(alias)
+        (mutator, matches) = Mutator.from_alias(alias)
 
         if alias in ("chill", "rand", "random", "r"):
             mutator = random.choice(list(cc.mutatorcache.values()))
         elif mutator is None:
-            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No mutator with alias '{}' found!".format(alias))
+            fields = ()
+            if matches.__len__() > 0:
+                fields = (Field("Did you mean:", "```{}```".format(", ".join(matches))),)
+            await self.bot.sendf(ctx, title=consts.ERR_STR, description="No mutator with alias '{}' found!".format(alias), fields=fields)
             return
 
         query = {"mutator":mutator.name}
@@ -582,7 +594,7 @@ class CoopCog(Cog, name="Coop"):
 
             for display_name in mutators:
                 internal_name = cc.display_name_to_internal_name(display_name)
-                mutator = Mutator.from_alias(internal_name)
+                (mutator, matches) = Mutator.from_alias(internal_name)
 
                 if mutator is None:
                     await self.bot.sendf(ctx, title=consts.ERR_STR, description="No mutator with alias '{}' found!".format(alias))
