@@ -242,7 +242,7 @@ class CoopCog(Cog, name="Coop"):
                     combined_set = str()
                     for masteries in v:
                         combined_set += "\r\n• {}".format(masteries)
-                    which_set = "Set {}".format(k)
+                    which_set = "__Set {}__".format(k)
                     fields = fields + (Field(which_set, combined_set),)
                 send = True
 
@@ -261,7 +261,7 @@ class CoopCog(Cog, name="Coop"):
                 description = "**Mastery Set {}**".format(query["level"]);
                 for k,v in data.items():
                     # v is a dict with "power" and "value" fields
-                    which_option = "Option {}: ".format(k[-1])
+                    which_option = "__Option {}__: ".format(k[-1])
                     fields = fields + (Field(which_option + v["power"], "• {}".format(v["value"])),)
 
                 send = True
@@ -283,7 +283,7 @@ class CoopCog(Cog, name="Coop"):
                 for prestige in prestiges:
                     lvl += 1
                     prestige_name = "• {}".format(prestige)
-                    which_prestige = "Prestige {}".format(lvl)
+                    which_prestige = "__Prestige {}__".format(lvl)
                     fields = fields + (Field(which_prestige, prestige_name),)
                 send = True
 
@@ -304,7 +304,7 @@ class CoopCog(Cog, name="Coop"):
                 description = "**Prestige {0}: {1}**".format(query["level"], data["name"]);
                 for k,v in data["description"].items():
                     # k is adv/disadv, v is the explanation 
-                    adv_disadv = k.capitalize()
+                    adv_disadv = "__{}__".format(k.capitalize())
                     split = "\r\n"
                     desc_list = v.encode().decode('unicode_escape').split(split)
                     desc = str()
